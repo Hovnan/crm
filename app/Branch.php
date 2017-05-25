@@ -33,7 +33,7 @@ class Branch extends Model
 
     public function timetables ()
     {
-        return $this->hasManyThrough('App\Timetable', 'App\Employee');
+        return $this->hasMany('App\Timetable');
     }
 
      public function directions ()
@@ -45,13 +45,6 @@ class Branch extends Model
     {
         return $this->hasManyThrough('App\Training', 'App\Direction');
     }
-
-    //must change
-    /*
-    public function trainings ()
-    {
-        return $this->hasManyThrough('App\Training', 'App\Employee');
-    }*/
 
     public function requests ()
     {
