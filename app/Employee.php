@@ -36,7 +36,7 @@ class Employee extends Model
 
     public function trainings ()
     {
-        return $this->hasMany('App\Training');
+        return $this->belongsToMany('App\Training');
     }
 
     public function getSocialAttribute($days)

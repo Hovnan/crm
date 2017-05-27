@@ -151,6 +151,25 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-8">
+                                    <div class="form-group" id="employees">
+                                        <div class="col-md-12" style="padding-left: 0">
+                                            <label for="da">Тренеры *</label>
+                                        </div>
+                                        <div class="col-md-12" style="padding-left: 0">
+                                            <select class="selectpicker" name="employees" data-style="btn-default btn-sel" multiple data-max-options="7" id="da">
+                                                @foreach($employees as $employee)
+                                                    <option value="{{ $employee->id }}">{{ $employee->name }}</option>
+                                                @endforeach
+                                            </select>
+
+                                        </div>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <div class="clearfix"> </div>
+                            </div>
+                            <div class="row" style="padding-top: 20px;">
+                                <div class="col-md-8">
                                     <button type="submit" class="btn btn-info pull-left btn-cust">Добавить</button>
                                 </div>
                             </div>
@@ -175,13 +194,12 @@
 @stop
 
 
-@section('scripts')<!--
-    <script src="/js/timedropper.js"></script>
-    <link rel="stylesheet" type="text/css" href="/style/timedropper.css">
+@section('scripts')
+    <link rel="stylesheet" href="/style/bootstrap-select.min.css">
+    <script src="/js/bootstrap-select.min.js"></script>
     <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/css/bootstrap-select.min.css">-->
-    <!--<link rel="stylesheet" href="/style/bootstrap-select.min.css">
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/js/bootstrap-select.min.js"></script>-->
-    <!--<script src="/js/bootstrap-select.min.js"></script>-->
+
     <script>
         $.ajaxSetup({
             headers: {
@@ -195,6 +213,7 @@
                 "name": $('input[name=name]').val().toLowerCase(),
                 "duration": $('input[name=duration]').val(),
                 "direction_id": $('select[name=direction_id]').val(),
+                "employees": $('select[name=employees]').val(),
                 "age": $('input[name=age]').val(),
                 "amount": $('input[name=amount]').val(),
                 "cost": $('input[name=cost]').val()
@@ -213,11 +232,10 @@
                 },
                 error: function(response){
                     var result = response.responseJSON.errors;
-
                     for(var k in result) {
                         //console.log(k, result[k]);
-                        $('#direction').addClass('has-error');
-                        $('#direction .help-block').text(result[k]);
+                        $('#'+k).addClass('has-error');
+                        $('#' +k+ ' .help-block').text(result[k]);
                     }
                 }
             });

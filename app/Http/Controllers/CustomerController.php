@@ -135,12 +135,14 @@ class CustomerController extends Controller
                     }
                 }
                 //dd(max($ch));
+
             }
             $num = empty($ch)? 1 : max($ch) +1;
             $visit = $child->visits()->create([
                 'number' => str_pad($num, 5, '0', STR_PAD_LEFT),
                 'subscriber_id' => $subscriber->id,
                 'remainder' => $request->visit ? $request->visit : $subscriber->visits,
+                'paid' => $request->paid,
                 'valid' => $k = $subscriber->validity ? Carbon::now()->addMonth($subscriber->validity) : null,
             ]);
 

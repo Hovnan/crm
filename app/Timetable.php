@@ -22,10 +22,15 @@ class Timetable extends Model
     {
         return $this->belongsTo('App\Training', 'training_id');
     }
-
+/*
     public function employees ()
     {
         return $this->belongsTo('App\Employee');
+    }*/
+
+    public function employees ()
+    {
+        return $this->belongsToMany('App\Employee');
     }
 
     public function getDayAttribute($days)

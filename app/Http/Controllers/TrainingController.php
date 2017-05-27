@@ -21,6 +21,7 @@ class TrainingController extends Controller
         $record = $user->records()->where('branch_id', $branch_id)->first();
         $branch = $record->branch;
         $directs = $branch->directions;
+        $employees = $branch->employees;
         $trainings = $branch->trainings;
        // dd($trainings);
         $company = $branch->company;
@@ -32,7 +33,8 @@ class TrainingController extends Controller
             'company' => $company,
             'active' => $this->active,
             'directs' => $directs,
-            'trainings' => $trainings
+            'trainings' => $trainings,
+            'employees' => $employees
         ]);
     }
 
@@ -55,12 +57,13 @@ class TrainingController extends Controller
     public function store(Request $request, $branch_id)
     {
         $validator = Validator::make($request->all(), [
+            'direction_id' => 'required|numeric',
             'name' => 'required|unique:trainings',
             'duration' => 'required|numeric',
             'age' => 'required|numeric',
             'amount' => 'required|numeric',
             'cost' => 'required|numeric',
-            //'direction_id' => 'required|numeric'
+            'employees' => 'required'
         ]);
         if ($validator->fails()) {
 
@@ -71,10 +74,7 @@ class TrainingController extends Controller
             $record = $user->records()->where('branch_id', $branch_id)->first();
             $branch = $record->branch;
             $directions = $branch->directions()->where('id', $request->direction_id)->first();
-            //$trainings = $directions->trainings;
-            //$employee = $branch->employees()->where('id', $request->employee_id)->first();
-            
-            //$training = $directions->trainings()->create([
+
             $training = $directions->trainings()->create([
                 'name' => $request->name,
                 'duration' => $request->duration,
@@ -82,11 +82,12 @@ class TrainingController extends Controller
                 'amount' => $request->amount,
                 'cost' => $request->cost,
             ]);
+
+            $training->employees()->attach($request->employees);
             //session answer with success
 
             return response()->json(['redirect' => '/trainings/'.$branch_id]);
             //return response()->json($trainings);
-
         }
     }
 
@@ -96,10 +97,32 @@ class TrainingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    /*public function show($id)
+    public function show (Request $request, $branch_id)
     {
-        dd($id);
-    }*/
+        $user = Sentinel::getUser();
+        $record = $user->records()->where('branch_id', $branch_id)->first();
+        $branch = $record->branch;
+        $trainings = $branch->trainings()->where('trainings.id', $request->id)->first();
+        $data = '';
+
+        $data .= '<div class="col-md-6" >'.
+                    '<div class="form-group" id="employee_id">'.
+                        '<label for="emp">Тренер *</label>'.
+                        '<select class="selectpicker" data-style="btn-default btn-sel" multiple data-max-options="10" name="employee_id" id="emp">'.
+                            '<option value="">Select Trainer</option>';
+                                foreach($trainings->employees as $employee){
+                                    $data .= '<option value="'. $employee->id .'">'. $employee->name .'</option>';
+                                }
+                        $data .= '</select>'. 
+                            '<span class="help-block"></span>'. 
+                            '</div>'. 
+                            '</div>'.
+                            '<div class="clearfix"> </div>';
+
+
+        return response()->json($data);
+
+    }
 
     /**
      * Show the form for editing the specified resource.

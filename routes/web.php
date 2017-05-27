@@ -70,6 +70,7 @@ Route::group(['middleware' => 'authers'], function () {
     Route::post('/accountings/{branch}', ['as' => 'accounting.store', 'uses' => 'AccountingController@store']);
 
     Route::post('/directions/{branch}', ['as' => 'direction.store', 'uses' => 'DirectionController@store']);
+    Route::post('/direction-show/{branch}', ['as' => 'direction.show', 'uses' => 'DirectionController@show']);
 
     Route::get('/requests/{branch}', ['as' => 'request.index', 'uses' => 'RequestController@index']);
     Route::post('/requests-search/{branch}', ['as' => 'request.search', 'uses' => 'RequestController@search']);
@@ -81,6 +82,7 @@ Route::group(['middleware' => 'authers'], function () {
     Route::post('/trainings/{branch}', ['as' => 'training.store', 'uses' => 'TrainingController@store']);
     Route::get('/trainings/{branch}/{id}', ['as' => 'training.edit', 'uses' => 'TrainingController@edit']);
     Route::post('/trainings/{branch}/{id}', ['as' => 'training.update', 'uses' => 'TrainingController@update']);
+    Route::post('/training-show/{branch}', ['as' => 'training.show', 'uses' => 'TrainingController@show']);
     
     Route::get('/subscribers/{branch}', ['as' => 'subscriber.index', 'uses' => 'SubscriberController@index']);
     Route::post('/subscribers-search/{branch}', ['as' => 'subscriber.search', 'uses' => 'SubscriberController@search']);

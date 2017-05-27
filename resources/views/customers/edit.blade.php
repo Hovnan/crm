@@ -4,10 +4,10 @@
         <div class="graphs">
             <div class="md">
                 <h3 class="blank1">Профиль посетителя</h3>
-                <span class="f-type">Основная информация</span>
+                <h4 style="color: grey">Основная информация</h4>
             </div>
             <form id="customer-form">
-                <div class="col-md-8">
+                <div class="col-md-8" style="padding-left: 0">
                     <div class="row">
                         <div class="col-md-6 grid_box1">
                             <div class="form-group" id="name">
@@ -77,7 +77,7 @@
                         <div class="clearfix"> </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" style="padding-left: 0">
                     <div class="row">
                         <div class="col-md-12 grid_box1">
                             <div class="form-group">
@@ -104,14 +104,14 @@
                     </div>
                 </div>
             </form>
-            <div class="col-md-12">
-                <h3 class="blank1">Информация об абонементе</h3>
+            <div class="col-md-12" style="padding-left:0; margin-top:20px;">
+                <h4 style="color: grey">Информация об абонементе</h4>
             </div>
             <table id="client_table" class="table table-bordered col-xs-12 text-center">
                 <thead>
 
                 <tr>
-                    <th>&#8470;</th>
+                    <th>N</th>
                     <th>Номер и тип абонимента</th>
                     <th>Кол-во ост. занятий</th>
                     <th>Дата окончания</th>

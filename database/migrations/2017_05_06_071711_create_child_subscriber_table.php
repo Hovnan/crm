@@ -17,6 +17,8 @@ class CreateChildSubscriberTable extends Migration
 
             $table->increments('id');
 
+            $table->string('number', 10);
+
             $table->integer('child_id')->unsigned()->index();
             $table->foreign('child_id')->references('id')->on('childs')->onDelete('cascade');
 
@@ -24,6 +26,8 @@ class CreateChildSubscriberTable extends Migration
             $table->foreign('subscriber_id')->references('id')->on('subscribers')->onDelete('cascade');
 
             $table->string('remainder', 3)->nullable();
+            $table->string('paid', 10)->nullable();
+
             $table->date('valid')->nullable();
             $table->date('last_visit')->nullable();
             

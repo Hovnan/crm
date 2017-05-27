@@ -82,7 +82,7 @@
             <table id="client_table" class="table table-bordered col-xs-12 text-center">
                 <thead>
                 <tr>
-                    <th>&#8470;</th>
+                    <th>N</th>
                     <th>ФИО</th>
                     <th>Телефон, Почта</th>
                     <th>Номер и тип абонимента</th>
@@ -213,44 +213,7 @@
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-3 grid_box1">
-                                    <div class="form-group" id="type">
-                                        <label for="t">Вид абонента *</label>
-                                        <select class="form-control1" id="t" name="type">
-                                            <option value="0">Не выбран</option>
-                                            <option value="1">Фиксировании</option>
-                                            <option value="2">Не фиксировании</option>
-                                        </select>
-                                        <span class="help-block"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 fix-1" style="display: none">
-                                    <div class="form-group" id="subscriber_id">
-                                        <label for="sub">Название абонента *</label>
-                                        <select class="form-control1" id="sub" name="subscriber_id">
-                                            <option value="">Не выбран</option>
-                                            @foreach($subscribers as $subscriber)
-                                                @if($subscriber->type)
-                                                    @continue
-                                                @endif
-                                                <option value="{{ $subscriber->id }}">{{ $subscriber->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <span class="help-block"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 fix-2" style="display: none">
-                                    <div class="form-group" id="visit">
-                                        <label for="vis">Количество посещений *</label>
-                                        <div class="col-md-5" style="padding-left: 0">
-                                            <input type="text" class="form-control1 vis" name="visit" id="vis" data>
-                                        </div>
-                                        <div class="col-md-7"><p id="ins-pr" style="padding-top: 5px"></p></div>
-                                        <span class="help-block"></span>
-                                    </div>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
+                              </div>
                             <div class="row">
                                 <div class="col-md-6 grid_box1">
                                     <div class="form-group">
@@ -288,6 +251,60 @@
                                         <button type="button" class="btn btn-info btn-block btn-cust" onclick="alert(777)">Edit</button>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <span class="f-type">Добавления абонемента</span>
+                                </div>
+                                 </div>
+                            <div class="row">
+                                <div class="col-md-3 grid_box1">
+                                    <div class="form-group" id="type">
+                                        <label for="t">Вид абонента *</label>
+                                        <select class="form-control1" id="t" name="type">
+                                            <option value="0">Не выбран</option>
+                                            <option value="1">Фиксировании</option>
+                                            <option value="2">Не фиксировании</option>
+                                        </select>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 fixed-1" style="display: none">
+                                    <div class="form-group" id="subscriber_id">
+                                        <label for="sub">Название абонента *</label>
+                                        <select class="form-control1" id="sub" name="subscriber_id">
+                                            <option value="">Не выбран</option>
+                                            @foreach($subscribers as $subscriber)
+                                                @if($subscriber->type)
+                                                    @continue
+                                                @endif
+                                                <option value="{{ $subscriber->id }}">{{ $subscriber->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 fixed-2" style="display: none">
+                                    <div class="form-group" id="visit">
+                                        <label for="vis">Количество посещений *</label>
+                                        <div class="col-md-5" style="padding-left: 0">
+                                            <input type="text" class="form-control1 vis" name="visit" id="vis" data>
+                                        </div>
+                                        <div class="col-md-7"><p id="ins-pr" style="padding-top: 5px"></p></div>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 fixed-0 grid_box1" style="display: none">
+                                    <div class="form-group" id="paid">
+                                        <label for="pay">Оплаченная сумма * &nbsp;</label>
+                                        <div class="col-md-6" style="padding-left: 0">
+                                            <input type="text" class="form-control1" name="paid" id="pay">
+                                        </div>
+                                        <div class="col-md-6"><p id="fixed-pr" style="padding-top: 5px"></p></div>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <div class="clearfix"> </div>
                             </div>
                         </form>
                     </div>
@@ -454,12 +471,14 @@
                 "post": $('input[name=post]').val(),
                 "social": arr,
 
+                "paid": $('input[name=paid]').val() ? $('input[name=paid]').val() : '0',
                 "child_name": $('input[name=child_name]').val(),
                 "gender": $('input[name=gender]:checked').val(),
                 "age": $('input[name=age]').val().split('/').reverse().join('-'),
-                "subscriber_id": $('select[name=subscriber_id]').val(),
-                "visit": $('#vis').val()
+                "subscriber_id": $('select[name=type]').val() == '2' ? null :$('select[name=subscriber_id]').val(),
+                "visit": $('select[name=type]').val() == '2' ? $('input[name=visit]').val() : null,
             };
+
             for(var k in postData) {
                 $('#' + k).removeClass('has-error');
                 $('#' + k + ' span').text('');
@@ -480,6 +499,7 @@
                 }
             });
         });
+        /*
         function addSubscriber(e) {
             var button = $(e);
             var id = button.attr('item');
@@ -494,8 +514,6 @@
                 data: postData,
                 success: function (response) {
                     //console.log(response.decrease['remainder']);
-                    console.log(response);
-                    return false
                     $("#visits_"+id).text(response.decrease['remainder']);
                     $("#last_"+id).text(response.decrease['last_visit']);
                     if(response.decrease['remainder'] == 0){
@@ -506,10 +524,15 @@
                     console.log('error');
                 }
             });
-        }
-        /*$('#myModal').on('hidden.bs.modal', function () {
-            // do something…
-        })*/
+        }*/
+        $('#add_subscriber').on('hidden.bs.modal', function () {
+            $('#ins-pr1').text('');
+            $('#fix-pr1').text('');
+            $('#vis1').val('');
+            $('#pay1').val('');
+            $('#t1 option').removeAttr('selected');
+            $('#sub1 option').removeAttr('selected');
+        })
         function actionVisit(e){
 
             //e.preventDefault();
@@ -526,7 +549,6 @@
                 url: "{{ route('child.decrease') }}",
                 data: postData,
                 success: function (response) {
-                    //console.log(response.decrease);
                     $("#visit_modal").modal('hide');
                     $("#visits_"+id[1]).text(response.decrease['remainder']);
                     $("#last_"+id[1]).text(response.decrease['last_visit']);
@@ -560,6 +582,8 @@
                 url: "{{ route('child.search') }}",
                 data: postData,
                 success: function (response) {
+                    //console.log(response);
+                    //return false;
 
                     $('#client_table tbody').html(response);
                 },
@@ -574,9 +598,9 @@
 
         $(".rg").change(function () {
             if(this.checked){
-                $('.'+this.id).show()
+                $('.'+this.id).show();
             }else{
-                $('.'+this.id).hide()
+                $('.'+this.id).hide();
             }
             /*$('#show-check').hide();
             if($("#option2").is(":checked")){
@@ -584,8 +608,8 @@
             }*/
             //$('#send').removeClass('disabled');
 
-        })
-            $('#gsm').mask('+7 (000) 000-00-00')
+        });
+        $('#gsm').mask('+7 (000) 000-00-00')
         $('#date').mask('AB/CD/EEGH', {'translation': {
             A: {pattern: /[0-3]/},
             B: {pattern: /[0-9]/},
@@ -604,6 +628,7 @@
             $('#t').val('1').prop('selected', true);
             console.log($('#t').val());
             return false*/
+            $('.fixed-0').show();
             var postData = {
                 "branch_id": "{{ $branch->id }}",
                 "visit": $('input[name=visit]').val()
@@ -650,6 +675,13 @@
 
         $('#t1').on('change', function () {
             var t = $('#t1').val();
+
+            $('#ins-pr1').text('');
+            $('#fix-pr1').text('');
+            $('#vis1').val('');
+            $('#pay1').val('');
+            $('#sub1 option').removeAttr('selected');
+
             if (t != 0) {
                 $('.fix').show();
                 $('.fix-'+t).show();
@@ -672,7 +704,7 @@
                 url: "{{ route('subscriber.price') }}",
                 data: postData,
                 success: function (response) {
-                    console.log(response);
+                    //console.log(response);
 
                     $('#fix-pr1').text(response);
                 },
@@ -717,16 +749,45 @@
         }
         $('#t').on('change', function () {
            var t = $('#t').val();
+            $('.fixed-0').hide();
+
+            $('#ins-pr').text('');
+            $('#fixed-pr').text('');
+            $('#vis').val('');
+            $('#pay').val('');
+            $('#sub option').removeAttr('selected');
+
             if (t != 0) {
-                //$('.fix-0').show();
-                $('.fix-'+t).show();
-                $('.fix-'+(3-t)).hide();
+                $('.fixed-'+t).show();
+                $('.fixed-'+(3-t)).hide();
+
             }
             else {
                 //$('.type-0').hide();
-                $('.fix-1').hide();
-                $('.fix-2').hide();
+                $('.fixed-1').hide();
+                $('.fixed-2').hide();
             }
+        });
+        $('#sub').change(function (){
+
+            $('.fixed-0').show();
+            var postData = {
+                "branch_id": "{{ $branch->id }}",
+                "id": $('#sub').val()
+            };
+            $.ajax({
+                type: "POST",
+                url: "{{ route('subscriber.price') }}",
+                data: postData,
+                success: function (response) {
+                    //console.log(response);
+
+                    $('#fixed-pr').text(response);
+                },
+                error: function () {
+                    console.log('error');
+                }
+            });
         });
         function actionShow(e){
             var id = $(e).parent().attr('item');
@@ -748,8 +809,6 @@
                 url: "{{ route('child.edit') }}",
                 data: postData,
                 success: function (response) {
-                    //var gen = response.child['gender'];
-                    //console.log(response);
                     $("#mumu").html(response);
                     //console.log(response.decrease['remainder']);
                     //$('input[name=name]').val(response.customer['name']);

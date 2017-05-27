@@ -25,6 +25,16 @@ class Training extends Model
     {
         return $this->belongsTo('App\Direction');
     }
+
+    public function subscribers ()
+    {
+        return $this->belongsToMany('App\Subscriber');
+    }
+
+    public function employees ()
+    {
+        return $this->belongsToMany('App\Employee');
+    }
     /*
     public function branches ()
     {

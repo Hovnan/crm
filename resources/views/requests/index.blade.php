@@ -34,7 +34,7 @@
             <table id="client_table" class="table table-bordered col-xs-10 text-center">
                 <thead>
                 <tr>
-                    <th>&#8470;</th>
+                    <th>N</th>
                     <th>ФИО</th>
                     <th>Телефон</th>
                     <th>Почта</th>

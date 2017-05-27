@@ -31,8 +31,8 @@ class TimetableController extends Controller
         $record = $user->records()->where('branch_id', $branch_id)->first();
         $branch = $record->branch;
         $employees = $branch->employees;
+        $directions = $branch->directions;
         $trainings = $branch->trainings;
-        //$trainings
         $timetables = $branch->timetables;
         $company = $branch->company;
         return view('timetables.index', [
@@ -42,6 +42,7 @@ class TimetableController extends Controller
             'branch' => $branch,
             'company' => $company,
             'employees' => $employees,
+            'directions' => $directions,
             'trainings' => $trainings,
             'active' => $this->active,
             'timetables' => $timetables
@@ -71,7 +72,7 @@ class TimetableController extends Controller
             'day' => 'required',
             'time' => 'required',
             'training_id' => 'required|numeric',
-            'employee_id' => 'required|numeric'
+            'employee_id' => 'required'
         ]);
         if ($validator->fails()) {
 
@@ -85,8 +86,10 @@ class TimetableController extends Controller
                 'day' => $request->day,
                 'time' => $request->time,
                 'training_id' => $request->training_id,
-                'employee_id' => $request->employee_id,
+                'branch_id' => $branch->id
             ]);
+
+            $timetable->employees()->attach($request->employee_id);
             //session answer with success
 
             return response()->json(['redirect' => '/timetables/'.$branch_id]);

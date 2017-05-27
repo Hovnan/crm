@@ -9,8 +9,6 @@
     <meta name="keywords" content="" />
 
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="/css/style.css" rel='stylesheet' type='text/css' />
     <!-- Graph CSS -->
     <link href="/css/font-awesome.css" rel="stylesheet">
     <!-- jQuery -->
@@ -20,6 +18,9 @@
     <!--animate-->
     <link href="/css/animate.css" rel="stylesheet" type="text/css" media="all">
     <link href="/style/jquery-ui.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom CSS -->
+    <link href="/css/style.css" rel='stylesheet' type='text/css' />
 </head>
 
 <!--<body class="sticky-header left-side-collapsed"  onload="initMap()">-->

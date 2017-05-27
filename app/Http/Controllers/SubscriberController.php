@@ -43,13 +43,16 @@ class SubscriberController extends Controller
         $branch = $record->branch;
         $subscribers = $branch->subscribers;
         $company = $branch->company;
+        $directions = $branch->directions;
+
         return view('subscribers.index', [
             'user' => $user,
             'record' => $record,
             'branch' => $branch,
             'company' => $company,
             'active' => $this->active,
-            'subscribers' => $subscribers
+            'subscribers' => $subscribers,
+            'directions' => $directions
         ]);
     }
 
@@ -78,7 +81,7 @@ class SubscriberController extends Controller
             'validity' => 'required',
             'visits' => 'required',
             'price' => 'required|numeric',
-            'freeze' => 'numeric',
+            'freeze' => 'numeric'
         ]);
         if ($validator->fails()) {
 
@@ -96,6 +99,9 @@ class SubscriberController extends Controller
                 'validity' => $request->validity ? $request->validity : null,
                 'freeze' => $request->freeze ? $request->freeze : null
             ]);
+            if(!empty($request->trainings)){
+                $subscriber->trainings()->attach($request->trainings);
+            }
             //session answer with success
             return response()->json(['redirect' => '/subscribers/'.$branch_id]);
         }
@@ -142,7 +148,6 @@ class SubscriberController extends Controller
         $user = Sentinel::getUser();
         $record = $user->records()->where('branch_id', $request->branch_id)->first();
         $branch = $record->branch;
-        //$company = $branch->company;
         $subscribers = $branch->subscribers();
 
         if($request->visit){
@@ -166,7 +171,6 @@ class SubscriberController extends Controller
         $user = Sentinel::getUser();
         $record = $user->records()->where('branch_id', $request->branch_id)->first();
         $branch = $record->branch;
-        //$company = $branch->company;
         $subscribers = $branch->subscribers();
 
         if($request->id){
@@ -209,16 +213,8 @@ class SubscriberController extends Controller
         $user = Sentinel::getUser();
         $record = $user->records()->where('branch_id', $branch_id)->first();
         $branch = $record->branch;
-        //$customers = $branch->customers;
-        //$subscribers = $branch->subscribers; //()->where('childs.id', $id)->first();
-        //$child->subscribers()->where('childs.id', $id)->first();
-        // dd($record);
         $company = $branch->company;
         $subscriber = $branch->subscribers->where('id', $id)->first();
-        
-        /*if ($subscriber->childs->first()){
-            return redirect()->back();
-        }*/
 
         return view('subscribers.edit', [
             'now' => Carbon::now(),

@@ -4,13 +4,21 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 */
+@font-face {
+    font-family: gillroy;
+    src: url(../fonts/Gilroylight.ttf);
+}
+@font-face {
+    font-family: gillroy-bold;
+    src: url(../fonts/Gilroyextrabold.ttf);
+}
 h4, h5, h6,
 h1, h2, h3 {margin-top: 0;}
 ul, ol {margin: 0;}
 p {margin: 0;}
 
 html, body{
-    font-family: 'Cabin', sans-serif;
+    font-family: gillroy;
     font-size: 100%;
     overflow-x: hidden;
     background: #f9f9f9;
@@ -31,7 +39,8 @@ a:focus, a:active, a:hover {
 }
 
 h1, h2, h3, h4, h5 {
-    font-family: 'Cabin', sans-serif;
+    font-family: gillroy;
+    color: #000000;
 }
 .icons {
     margin: 2em 2em;
@@ -2977,6 +2986,7 @@ span.badge1 {
     padding: 8px 12px;
     border-radius: 2px;
     background-color: #73a0ea;
+    font-family: gillroy-bold;
 }
 .modal-content {
     border-radius: 0;
@@ -4444,7 +4454,6 @@ button.rew:hover {
 /*-- blank_page --*/
 h1.blank,h3.blank1 {
     font-size:2em;
-    color:#999;
     margin:0 0 1em;
 }
 /*-- //blank_page --*/

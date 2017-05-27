@@ -19,8 +19,8 @@ class CreateTimetablesTable extends Migration
             $table->string('time');
             $table->integer('training_id')->unsigned();
             $table->foreign('training_id')->references('id')->on('trainings')->onDelete('cascade');
-            $table->integer('employee_id')->unsigned();
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->integer('branch_id')->unsigned();
+            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
             $table->timestamps();
         });
     }

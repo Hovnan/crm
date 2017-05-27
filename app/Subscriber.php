@@ -28,6 +28,11 @@ class Subscriber extends Model
         return $this->belongsToMany('App\Child');
     }
 
+    public function trainings ()
+    {
+        return $this->belongsToMany('App\Training');
+    }
+
     public function getNameAttribute($name)
     {
         return ucfirst($name);

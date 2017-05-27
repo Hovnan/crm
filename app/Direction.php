@@ -20,4 +20,9 @@ class Direction extends Model
     {
         return $this->hasMany('App\Training');
     }
+
+    public function getNameAttribute($name)
+    {
+        return ucfirst($name);
+    }
 }

@@ -67,12 +67,12 @@
                         <form id="timetable-form">
                             <div class="row">
                                 <div class="col-md-8">
-                                    <div class="form-group" id="training_id">
-                                        <label for="tr">Название занятия *</label>
-                                        <select class="form-control1" name="training_id" id="tr">
-                                            <option value="">Select Training</option>
-                                            @foreach($trainings as $training)
-                                                <option value="{{ $training->id }}">{{ $training->name }}</option>
+                                    <div class="form-group" id="direction_id">
+                                        <label for="dir">Направление занятий *</label>
+                                        <select class="form-control1" name="direction_id" id="dir">
+                                            <option value="">Не выбран</option>
+                                            @foreach($directions as $direction)
+                                                <option value="{{ $direction->id }}">{{ $direction->name }}</option>
                                             @endforeach
                                         </select>
                                         <span class="help-block"></span>
@@ -80,7 +80,10 @@
                                 </div>
                                 <div class="clearfix"> </div>
                             </div>
-                            <div class="row">
+                            <div class="row training">
+
+                            </div>
+                            <div class="row time" style="display:none">
                                 <div class="col-md-3">
                                     <div class="form-group" id="time">
                                         <label for="dur">Время *</label>
@@ -90,7 +93,7 @@
                                 </div>
                                 <div class="clearfix"> </div>
                             </div>
-                            <div class="row">
+                            <div class="row day" style="display:none">
                                 <div class="col-md-3">
                                     <div class="form-group" id="day">
                                         <label for="da">День недели *</label>
@@ -108,22 +111,10 @@
                                 </div>
                                 <div class="clearfix"> </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <div class="form-group" id="employee_id">
-                                        <label for="emp">Тренер *</label>
-                                        <select class="form-control1" name="employee_id" id="emp">
-                                            <option value="">Select Trainer</option>
-                                            @foreach($employees as $employee)
-                                                <option value="{{ $employee->id }}">{{ $employee->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <span class="help-block"></span>
+                            <div class="row employee">
+
                                     </div>
-                                </div>
-                                <div class="clearfix"> </div>
-                            </div>
-                            <div class="row">
+                            <div class="row but" style="display:none">
                                 <div class="col-md-8">
                                     <button type="submit" class="btn btn-info pull-left btn-cust">Добавить</button>
                                 </div>
@@ -190,7 +181,91 @@
                     }
                 }
             });
+        });/*
+        $('.selectpicker').selectpicker({
+            style: 'btn-info',
+            size: 4
+        });*/
+        $('#dir').on('change', function(){
+            var id = $('select[name=direction_id]').val() ? $('select[name=direction_id]').val() : null;
+
+            if(id){
+                var postData = {
+                    "id": id
+                };/*
+                 for(var k in postData) {
+                 $('#' + k).removeClass('has-error');
+                 $('#' + k + ' .help-block').text('');
+                 };*/
+                $.ajax({
+                    type: 'POST',
+                    url:"{{ route('direction.show', ['branch' => $branch->id]) }}",
+                    data: postData,
+                    success: function(response){
+                        //window.location.href = response.redirect;
+                        $('.training').html(response);
+
+                    },
+                    error: function(response){
+                        var result = response.responseJSON.errors;
+
+                        for(var k in result) {
+                            $('#'+k).addClass('has-error');
+                            $('#'+ k +' .help-block').text(result[k]);
+                        }
+                    }
+                });
+            }else{
+                $('.training').html('');
+                $('.employee').html('');
+                $('.day').hide();
+                $('.time').hide();
+                $('.but').hide();
+            }
+            return false
+
         });
+         function showEmployees() {
+             var id = $('select[name=training_id]').val() ? $('select[name=training_id]').val(): null;
+             if(id){
+             var postData = {
+                 "id": id
+             };
+             /*
+              for(var k in postData) {
+              $('#' + k).removeClass('has-error');
+              $('#' + k + ' .help-block').text('');
+              };*/
+             $.ajax({
+                 type: 'POST',
+                 url: "{{ route('training.show', ['branch' => $branch->id]) }}",
+                 data: postData,
+                 success: function (response) {
+                     //window.location.href = response.redirect;
+
+                     //$('.employee').show();
+                     $('.employee').html(response);
+                     $('.employee select').selectpicker('refresh');
+
+                     $('.day').show();
+                     $('.time').show();
+                     $('.but').show();
+
+                 },
+                 error: function (response) {
+                     var result = response.responseJSON.errors;
+
+                     for (var k in result) {
+                         $('#' + k).addClass('has-error');
+                         $('#' + k + ' .help-block').text(result[k]);
+                     }
+                 }
+             });
+         }else{
+                 $('.employee').html('');
+             }
+             return false
+        };
         /*$(function (){
             $.mask.definitions['H']='[012]';
             $.mask.definitions['M']='[012345]';

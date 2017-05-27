@@ -41,7 +41,7 @@
             <table id="branch_table" class="table table-bordered col-xs-12 text-center">
                 <thead>
                 <tr>
-                    <th style="width: 50px;">&#8470;</th>
+                    <th style="width: 50px;">N</th>
                     <th class="me">Название</th>
                     <th style="width: 170px;">Тип</th>
                     <th style="width: 150px;">Цена</th>
@@ -195,6 +195,27 @@
                                 </div>
                                 <div class="clearfix"> </div>
                             </div>
+                            <div class="row type-0" style="display: none;">
+                                <div class="col-md-8">
+                                    <div class="form-group" id="trainings">
+                                        <div class="col-md-12" style="padding-left: 0">
+                                            <label for="da">Занятия </label>
+                                        </div>
+                                        <div class="col-md-12" style="padding-left: 0">
+                                        <select class="selectpicker" name="trainings" data-style="btn-default btn-sel" multiple data-max-options="7" id="da">
+                                            @foreach($directions as $direction)
+                                                @foreach($direction->trainings as $training)
+                                                    <option value="{{ $training->id }}">{{ $training->name }}</option>
+                                                    @endforeach
+                                                @endforeach
+                                        </select>
+
+                                        </div>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <div class="clearfix"> </div>
+                            </div>
                             <div class="row type-0" style="display: none; margin-top: 15px;">
                                 <div class="col-md-8">
                                     <div class="form-group">
@@ -217,6 +238,8 @@
 @stop
 
 @section('scripts')
+    <link rel="stylesheet" href="/style/bootstrap-select.min.css">
+    <script src="/js/bootstrap-select.min.js"></script>
     <script>
         $.ajaxSetup({
             headers: {
@@ -233,8 +256,10 @@
                 "validity": $('input[name=check]').is(':checked')? 0 : $('input[name=validity]').val(),
                 "type": type,
                 "freeze": $('input[name=check-frez]').is(':checked')? 0 : $('input[name=freeze]').val(),
+                "trainings": $('select[name=trainings]').val(),
                 "price": $('input[name=price]').val()
             };
+
             if (t == 1) {
                 postData["visits"] = $('input[name=check-date]').is(':checked')? 0 : $('input[name=visits]').val();
             }else {
